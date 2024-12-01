@@ -1,0 +1,7 @@
+name: MiniAnnouncements
+description: The ultimate Paper Announcement Plugin
+version: '${project.version}'
+authors:
+  - Velyn
+main: me.velyn.miniannouncements.MiniAnnouncementsMain
+api-version: '1.21'
