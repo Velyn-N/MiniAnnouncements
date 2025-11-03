@@ -2,6 +2,7 @@ package me.velyn.miniannouncements;
 
 import me.velyn.miniannouncements.commands.AdminCommand;
 import me.velyn.miniannouncements.config.PluginConfig;
+import me.velyn.miniannouncements.minimessage.MiniMessageContainer;
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,6 +15,7 @@ public class MiniAnnouncementsMain extends JavaPlugin {
 
     private final PluginConfig pluginConfig;
     private Log log;
+    private AnnouncementScheduler announcementScheduler;
 
     public MiniAnnouncementsMain() {
         pluginConfig = new PluginConfig();
@@ -33,6 +35,10 @@ public class MiniAnnouncementsMain extends JavaPlugin {
         CommandMap cm = getServer().getCommandMap();
         cm.register(fallbackPrefix, new AdminCommand(this));
 
+        MiniMessageContainer miniMessageContainer = new MiniMessageContainer();
+
+        announcementScheduler = new AnnouncementScheduler(this, log, pluginConfig, miniMessageContainer);
+        announcementScheduler.start();
     }
 
     private void updateConfig() {
@@ -65,10 +71,16 @@ public class MiniAnnouncementsMain extends JavaPlugin {
         pluginConfig.applyValuesFrom(getConfig());
         log.setDebug(pluginConfig.isDebug());
         log.infoF("Config reloaded!");
+        if (announcementScheduler != null) {
+            announcementScheduler.stop();
+            announcementScheduler.start();
+            log.infoF("Scheduler restarted!");
+        }
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+        announcementScheduler.stop();
     }
 }

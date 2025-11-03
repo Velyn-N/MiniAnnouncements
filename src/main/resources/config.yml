@@ -1,2 +1,13 @@
 # Debug Logging
 debug: false
+announcements:
+  scheduled:
+    everyMinute:
+      enabled: false
+      delay: 60
+      message: >
+        <green>Hello this is an announcement that runs every 60 seconds
+    every2min:
+      enabled: false
+      delay: 120
+      message: <yellow>Hello this is an announcement that runs every 120 seconds
