@@ -1,6 +1,6 @@
 package me.velyn.miniannouncements;
 
-import me.velyn.miniannouncements.commands.AdminCommand;
+import me.velyn.miniannouncements.commands.MiniAnnouncementsCommand;
 import me.velyn.miniannouncements.config.PluginConfig;
 import me.velyn.miniannouncements.minimessage.MiniMessageContainer;
 import org.bukkit.command.CommandMap;
@@ -31,11 +31,11 @@ public class MiniAnnouncementsMain extends JavaPlugin {
 
         pluginConfig.applyValuesFrom(getConfig());
 
+        MiniMessageContainer miniMessageContainer = new MiniMessageContainer();
+
         String fallbackPrefix = getName().toLowerCase();
         CommandMap cm = getServer().getCommandMap();
-        cm.register(fallbackPrefix, new AdminCommand(this));
-
-        MiniMessageContainer miniMessageContainer = new MiniMessageContainer();
+        cm.register(fallbackPrefix, new MiniAnnouncementsCommand(this, pluginConfig, miniMessageContainer));
 
         announcementScheduler = new AnnouncementScheduler(this, log, pluginConfig, miniMessageContainer);
         announcementScheduler.start();
