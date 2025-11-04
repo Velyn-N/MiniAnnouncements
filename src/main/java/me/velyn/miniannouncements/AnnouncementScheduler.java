@@ -52,9 +52,7 @@ public class AnnouncementScheduler {
     }
 
     public void stop() {
-        scheduleIds.forEach(id -> {
-            scheduler.cancelTask(id);
-            scheduleIds.remove(id);
-        });
+        scheduleIds.forEach(scheduler::cancelTask);
+        scheduleIds.clear();
     }
 }
