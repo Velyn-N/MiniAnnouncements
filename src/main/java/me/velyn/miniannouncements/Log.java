@@ -30,7 +30,7 @@ public class Log {
 
     public void debugF(String message, Object... args) {
         if (isDebug) {
-            logger.log(Level.FINE, String.format(message, args));
+            logger.log(Level.INFO, "[DEBUG] " + String.format(message, args));
         }
     }
 }
