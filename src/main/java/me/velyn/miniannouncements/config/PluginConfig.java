@@ -3,6 +3,7 @@ package me.velyn.miniannouncements.config;
 import me.velyn.miniannouncements.Announcement;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,10 +27,21 @@ public class PluginConfig {
                         key,
                         announcementSection.getBoolean("enabled"),
                         announcementSection.getInt("delay"),
-                        announcementSection.getString("message")
+                        multilineToSingleLine(announcementSection.getString("message"))
                 ));
             }
         }
+    }
+
+    private String multilineToSingleLine(String multiLine) {
+        return multiLine == null ? "" :
+                Arrays.stream(multiLine
+                        .replace("\r\n", "\n")
+                        .split("\n")
+                )
+                .map(String::trim)
+                .reduce((a, b) -> a + " " + b)
+                .orElse("");
     }
 
     public boolean isDebug() {

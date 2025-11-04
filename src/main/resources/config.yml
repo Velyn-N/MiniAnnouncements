@@ -5,8 +5,11 @@ announcements:
     everyMinute:
       enabled: false
       delay: 60
-      message: >
-        <green>Hello this is an announcement that runs every 60 seconds
+      message: |
+        <green>This is an announcement that runs every 60 seconds.
+        Because it is very long we wrote it over multiple lines in the config,
+        but as you can see the message is displayed as one line in the chat!<newline><newline>
+        We do love some space tho, right?
     every2min:
       enabled: false
       delay: 120
