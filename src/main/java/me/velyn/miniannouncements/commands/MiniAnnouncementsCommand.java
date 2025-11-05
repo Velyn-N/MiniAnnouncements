@@ -28,6 +28,7 @@ public class MiniAnnouncementsCommand extends Command {
         this.config = config;
         this.miniMsgContainer = miniMsgContainer;
         setPermission(PERMISSION);
+        setAliases(List.of("miniannouncements", "miniAnnounce", "maAdmin"));
     }
 
     @Override
