@@ -12,8 +12,9 @@ import java.io.InputStreamReader;
 
 public class MiniAnnouncementsMain extends JavaPlugin {
 
+    private static Log log;
+
     private final PluginConfig pluginConfig;
-    private Log log;
     private AnnouncementScheduler announcementScheduler;
 
     public MiniAnnouncementsMain() {
@@ -79,5 +80,12 @@ public class MiniAnnouncementsMain extends JavaPlugin {
     public void onDisable() {
         super.onDisable();
         announcementScheduler.stop();
+    }
+
+    public static Log getLog() {
+        if (log == null) {
+            throw new IllegalStateException("Log is not initialized yet!");
+        }
+        return log;
     }
 }

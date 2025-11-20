@@ -14,3 +14,7 @@ announcements:
       enabled: false
       delay: 120
       message: <yellow>Hello this is an announcement that runs every 120 seconds
+    tellTheTime:
+      enabled: false
+      delay: 10
+      message: <gold>It is now <red><date_time:def> on day <date:"dd.MM.yyyy"> instead of <date:iso:1970-01-01><gold> o'clock, dear <player_name>
