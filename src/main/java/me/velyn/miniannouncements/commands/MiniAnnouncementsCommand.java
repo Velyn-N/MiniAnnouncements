@@ -3,9 +3,10 @@ package me.velyn.miniannouncements.commands;
 import me.velyn.miniannouncements.Announcement;
 import me.velyn.miniannouncements.MiniAnnouncementsMain;
 import me.velyn.miniannouncements.config.PluginConfig;
-import me.velyn.miniannouncements.minimessage.MiniMessageContainer;
+import me.velyn.miniannouncements.minimessage.AnnouncementSpecialTags;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -20,13 +21,11 @@ public class MiniAnnouncementsCommand extends Command {
 
     private final MiniAnnouncementsMain main;
     private final PluginConfig config;
-    private final MiniMessageContainer miniMsgContainer;
 
-    public MiniAnnouncementsCommand(MiniAnnouncementsMain main, PluginConfig config, MiniMessageContainer miniMsgContainer) {
+    public MiniAnnouncementsCommand(MiniAnnouncementsMain main, PluginConfig config) {
         super(main.getName().toLowerCase());
         this.main = main;
         this.config = config;
-        this.miniMsgContainer = miniMsgContainer;
         setPermission(PERMISSION);
         setAliases(List.of("miniannouncements", "miniAnnounce", "maAdmin"));
     }
@@ -97,11 +96,11 @@ public class MiniAnnouncementsCommand extends Command {
                         sender.sendMessage(Component.text("Unknown Player", NamedTextColor.RED));
                         return false;
                     }
-                    optPlayer.get().sendMessage(miniMsgContainer.getMiniMessage().deserialize(optAnnouncement.get().miniMsg()));
+                    optPlayer.get().sendMessage(MiniMessage.miniMessage().deserialize(optAnnouncement.get().miniMsg(), new AnnouncementSpecialTags(new AnnouncementSpecialTags.Ctx(optPlayer.get()))));
                     sender.sendMessage(Component.text("Sent announcement to Player " + playerName, NamedTextColor.GREEN));
                     return true;
                 }
-                sender.sendMessage(miniMsgContainer.getMiniMessage().deserialize(optAnnouncement.get().miniMsg()));
+                sender.sendMessage(MiniMessage.miniMessage().deserialize(optAnnouncement.get().miniMsg(), new AnnouncementSpecialTags(new AnnouncementSpecialTags.Ctx(null))));
                 return true;
             }
             default -> {

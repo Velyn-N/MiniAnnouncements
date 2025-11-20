@@ -2,7 +2,6 @@ package me.velyn.miniannouncements;
 
 import me.velyn.miniannouncements.commands.MiniAnnouncementsCommand;
 import me.velyn.miniannouncements.config.PluginConfig;
-import me.velyn.miniannouncements.minimessage.MiniMessageContainer;
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,8 +12,9 @@ import java.io.InputStreamReader;
 
 public class MiniAnnouncementsMain extends JavaPlugin {
 
+    private static Log log;
+
     private final PluginConfig pluginConfig;
-    private Log log;
     private AnnouncementScheduler announcementScheduler;
 
     public MiniAnnouncementsMain() {
@@ -31,13 +31,11 @@ public class MiniAnnouncementsMain extends JavaPlugin {
 
         pluginConfig.applyValuesFrom(getConfig());
 
-        MiniMessageContainer miniMessageContainer = new MiniMessageContainer();
-
         String fallbackPrefix = getName().toLowerCase();
         CommandMap cm = getServer().getCommandMap();
-        cm.register(fallbackPrefix, new MiniAnnouncementsCommand(this, pluginConfig, miniMessageContainer));
+        cm.register(fallbackPrefix, new MiniAnnouncementsCommand(this, pluginConfig));
 
-        announcementScheduler = new AnnouncementScheduler(this, log, pluginConfig, miniMessageContainer);
+        announcementScheduler = new AnnouncementScheduler(this, log, pluginConfig);
         announcementScheduler.start();
     }
 
@@ -82,5 +80,12 @@ public class MiniAnnouncementsMain extends JavaPlugin {
     public void onDisable() {
         super.onDisable();
         announcementScheduler.stop();
+    }
+
+    public static Log getLog() {
+        if (log == null) {
+            throw new IllegalStateException("Log is not initialized yet!");
+        }
+        return log;
     }
 }
